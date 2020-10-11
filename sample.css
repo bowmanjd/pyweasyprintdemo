@@ -1,0 +1,17 @@
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+}
+@page {
+  margin: 0.75in;
+  @top-right {
+    content: counter(page);
+  }
+}
+@page :first {
+  @top-right {
+    content: "";
+  }
+}

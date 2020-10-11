@@ -1,0 +1,17 @@
+
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Distribution / packaging
+*.egg-info/
+build/
+venv/
+.venv/
+in/
+out/
+
+# Vim related
+*.swp
+*~
