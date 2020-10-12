@@ -5,14 +5,298 @@
     <link href="sample.css" rel="stylesheet" />
   </head>
   <body>
-    <img src="python-pdf.png" alt="Python and PDF" />
+    <img
+      src="https://dev-to-uploads.s3.amazonaws.com/i/03go0ipro79sbt8ir7oq.png"
+      alt="Python and PDF"
+    />
     <h1>Python PDF Generation from HTML with WeasyPrint</h1>
-<p>While there are numerous ways to handle PDF documents with <a href="https://python.org">Python</a>, I find generating or editing HTML far easier and more reliable than trying to figure out the intricacies of the PDF format. Sure, there is the venerable <a href="https://pypi.org/project/reportlab/">ReportLab</a>, and if HTML is not your cup of tea, I encourage you to look into that option. There is also <a href="https://mstamy2.github.io/PyPDF2/">PyPDF2</a>. Or maybe <a href="https://github.com/sfneal/PyPDF3">PyPDF3</a>? No, perhaps <a href="https://github.com/claird/PyPDF4">PyPDF4</a>! Hmmm... see the problem? My best guess is PyPDF3, for what that is worth.</p>
-<p>So many choices...</p>
-<p><img src="https://dev-to-uploads.s3.amazonaws.com/i/omcprzuh7n6u0nyzshqv.png" alt="So many choices in the cereal aisle" /></p>
-<p>But there is an easy choice if you are comfortable with HTML.</p>
-<p>Enter <a href="https://weasyprint.org/">WeasyPrint</a>. It takes HTML and CSS, and converts it to a usable and potentially beautiful PDF document.</p>
-<h1></h1>
+    <p>
+      While there are numerous ways to handle PDF documents with
+      <a href="https://python.org">Python</a>, I find generating or editing HTML
+      far easier and more reliable than trying to figure out the intricacies of
+      the PDF format. Sure, there is the venerable
+      <a href="https://pypi.org/project/reportlab/">ReportLab</a>, and if HTML
+      is not your cup of tea, I encourage you to look into that option. There is
+      also <a href="https://mstamy2.github.io/PyPDF2/">PyPDF2</a>. Or maybe
+      <a href="https://github.com/sfneal/PyPDF3">PyPDF3</a>? No, perhaps
+      <a href="https://github.com/claird/PyPDF4">PyPDF4</a>! Hmmm... see the
+      problem? My best guess is PyPDF3, for what that is worth.
+    </p>
+    <p>So many choices...</p>
+    <p>
+      <img
+        src="https://dev-to-uploads.s3.amazonaws.com/i/omcprzuh7n6u0nyzshqv.png"
+        alt="So many choices in the cereal aisle"
+      />
+    </p>
+    <p>But there is an easy choice if you are comfortable with HTML.</p>
+    <p>
+      Enter <a href="https://weasyprint.org/">WeasyPrint</a>. It takes HTML and
+      CSS, and converts it to a usable and potentially beautiful PDF document.
+    </p>
+    <blockquote>
+      <p>
+        The code samples in this article can be accessed in
+        <a href="https://github.com/bowmanjd/pyweasyprintdemo"
+          >the associated Github repo</a
+        >. Feel free to clone and adapt.
+      </p>
+    </blockquote>
+    <h2>Installation</h2>
+    <p>
+      To install <a href="https://weasyprint.org/">WeasyPrint</a>, I recommend
+      you first
+      <a
+        href="https://dev.to/bowmanjd/python-tools-for-managing-virtual-environments-3bko"
+        >set up a virtual environment with the tool of your choice</a
+      >.
+    </p>
+    <p>
+      Then, installation is as simple as performing something like the following
+      in an activated virtual environment:
+    </p>
+    <pre><code class="language-console">pip install weasyprint
+</code></pre>
+    <p>Alternatives to the above, depending on your tooling:</p>
+    <ul>
+      <li><code>poetry add weasyprint</code></li>
+      <li><code>conda install -c conda-forge weasyprint</code></li>
+      <li><code>pipenv install weasyprint</code></li>
+    </ul>
+    <p>You get the idea.</p>
+    <p>
+      If you only want the <code>weasyprint</code> command-line tool, you could
+      even
+      <a
+        href="https://dev.to/bowmanjd/how-do-i-install-a-python-command-line-tool-or-script-hint-pipx-3i2"
+        >use pipx</a
+      >
+      and install with <code>pipx install weasyprint</code>. While that would
+      not make it very convenient to access as a Python library, if you just
+      want to convert web pages to PDFs, that may be all you need.
+    </p>
+    <h2>A command line tool (Python usage optional)</h2>
+    <p>
+      Once installed, the <code>weasyprint</code> command line tool is
+      available. You can convert an HTML file or a web page to PDF. For
+      instance, you could try the following:
+    </p>
+    <pre><code class="language-console">weasyprint \
+&quot;https://en.wikipedia.org/wiki/Python_(programming_language)&quot; \
+python.pdf
+</code></pre>
+    <p>
+      The above command will save a file <code>python.pdf</code> in the current
+      working directory, converted from the HTML from the
+      <a href="https://en.wikipedia.org/wiki/Python_(programming_language)"
+        >Python programming language article in English on Wikipedia</a
+      >. It ain't perfect, but it gives you an idea, hopefully.
+    </p>
+    <p>
+      You don't have to specify a web address, of course. Local HTML files work
+      fine, and they provide necessary control over content and styling.
+    </p>
+    <pre><code class="language-console">weasyprint sample.html out/sample.pdf
+</code></pre>
+    <p>
+      Feel free to
+      <a
+        href="https://raw.githubusercontent.com/bowmanjd/pyweasyprintdemo/main/sample.html"
+        >download a <code>sample.html</code></a
+      >
+      and an associated
+      <a
+        href="https://raw.githubusercontent.com/bowmanjd/pyweasyprintdemo/main/sample.css"
+        ><code>sample.css</code> stylesheet</a
+      >
+      with the contents of this article.
+    </p>
+    <p>
+      See
+      <a
+        href="https://weasyprint.readthedocs.io/en/latest/tutorial.html#as-a-standalone-program"
+        >the WeasyPrint docs</a
+      >
+      for further examples and instructions regarding the standalone
+      <code>weasyprint</code> command line tool.
+    </p>
+    <h2>Utilizing WeasyPrint as a Python library</h2>
+    <p>
+      The
+      <a href="https://weasyprint.readthedocs.io/">Python API for WeasyPrint</a>
+      is quite versatile. It can be used to load HTML when passed appropriate
+      file pointers, file names, or the text of the HTML itself.
+    </p>
+    <p>
+      Here is an example of a simple <code>makepdf()</code> function that
+      accepts an HTML string, and returns the binary PDF data.
+    </p>
+    <pre><code class="language-python">from weasyprint import HTML
 
+
+def makepdf(html):
+    &quot;&quot;&quot;Generate a PDF file from a string of HTML.&quot;&quot;&quot;
+    htmldoc = HTML(string=html, base_url=&quot;&quot;)
+    return htmldoc.write_pdf()
+</code></pre>
+    <p>
+      The main workhorse here is the <code>HTML</code> class. When instantiating
+      it, I found I needed to pass a <code>base_url</code> parameter in order
+      for it to load images and other assets from relative urls, as in
+      <code>&lt;img src=&quot;somefile.png&quot;&gt;</code>.
+    </p>
+    <p>
+      Using <code>HTML</code> and <code>write_pdf()</code>, not only will the
+      HTML be parsed, but associated CSS, whether it is embedded in the head of
+      the HTML (in a <code>&lt;style&gt;</code> tag), or included in a
+      stylesheet (with a
+      <code
+        >&lt;link href=&quot;sample.css&quot;
+        rel=&quot;stylesheet&quot;\&gt;</code
+      >
+      tag).
+    </p>
+    <p>
+      I should note that <code>HTML</code> can load straight from files, and
+      <code>write_pdf()</code> can write to a file, by specifying filenames or
+      file pointers. See
+      <a href="https://weasyprint.readthedocs.io/">the docs</a> for more detail.
+    </p>
+    <p>
+      Here is a more full-fledged example of the above, with primitive command
+      line handling capability added:
+    </p>
+    <pre><code class="language-python">from pathlib import Path
+import sys
+
+from weasyprint import HTML
+
+
+def makepdf(html):
+    &quot;&quot;&quot;Generate a PDF file from a string of HTML.&quot;&quot;&quot;
+    htmldoc = HTML(string=html, base_url=&quot;&quot;)
+    return htmldoc.write_pdf()
+
+
+def run():
+    &quot;&quot;&quot;Command runner.&quot;&quot;&quot;
+    infile = sys.argv[1]
+    outfile = sys.argv[2]
+    html = Path(infile).read_text()
+    pdf = makepdf(html)
+    Path(outfile).write_bytes(pdf)
+
+
+if __name__ == &quot;__main__&quot;:
+    run()
+</code></pre>
+    <p>
+      You may
+      <a
+        href="https://raw.githubusercontent.com/bowmanjd/pyweasyprintdemo/main/weasyprintdemo.py"
+        >download the above file</a
+      >
+      directly, or
+      <a href="https://github.com/bowmanjd/pyweasyprintdemo"
+        >browse the Github repo</a
+      >.
+    </p>
+    <blockquote>
+      <p>
+        A note about Python types: the <code>string</code> parameter when
+        instantiating <code>HTML</code> is a normal (Unicode) <code>str</code>,
+        but <code>makepdf()</code> outputs <code>bytes</code>.
+      </p>
+    </blockquote>
+    <p>
+      Assuming the above file is in your working directory as
+      <code>weasyprintdemo.py</code> and that a <code>sample.html</code> and an
+      <code>out</code> directory are also there, the following should work well:
+    </p>
+    <pre><code class="language-console">python weasyprintdemo.py sample.html out/sample.pdf
+</code></pre>
+    <p>
+      Try it out, then open <code>out/sample.pdf</code> with your PDF reader.
+      Are we close?
+    </p>
+    <h2>Styling HTML for print</h2>
+    <p>
+      As is probably apparent, using WeasyPrint is easy. The real work with HTML
+      to PDF conversion, though, is in the styling. Thankfully, CSS has pretty
+      good support for printing.
+    </p>
+    <p>Some useful CSS print resources:</p>
+    <ul>
+      <li>
+        <a href="https://css-tricks.com/tag/print-stylesheet/"
+          >Various articles on CSS-Tricks</a
+        >
+      </li>
+      <li>
+        <a href="https://flaviocopes.com/css-printing/#print-css"
+          >A nice summary on flaviocopes</a
+        >
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Printing"
+          >The MDN web docs</a
+        >
+      </li>
+    </ul>
+    <p>This simple stylesheet demonstrates a few basic tricks:</p>
+    <pre><code class="language-css">body {
+  font-family: sans-serif;
+}
+@media print {
+  a::after {
+    content: &quot; (&quot; attr(href) &quot;) &quot;;
+  }
+  pre {
+    white-space: pre-wrap;
+  }
+  @page {
+    margin: 0.75in;
+    size: Letter;
+    @top-right {
+      content: counter(page);
+    }
+  }
+  @page :first {
+    @top-right {
+      content: &quot;&quot;;
+    }
+  }
+}
+</code></pre>
+    <p>
+      First, use
+      <a
+        href="https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries"
+        >media queries</a
+      >. This allows you to use the same stylesheet for both print and screen,
+      using <code>@media print</code> and
+      <code>@media screen</code> respectively. In the example stylesheet, I
+      assume that the defaults (such as seen in the
+      <code>body</code> declaration) apply to all formats, and that
+      <code>@media print</code> provides overrides.
+    </p>
+    <p>
+      Second,
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@page"
+        >use <code>@page</code> CSS rules</a
+      >. While
+      <a href="https://caniuse.com/mdn-css_at-rules_page_size"
+        >browser support</a
+      >
+      is pretty abysmal in 2020, WeasyPrint does a pretty good job of supporting
+      what you need. Note the margin and size adjustments above, and the page
+      numbering, in which we first define a counter in the top-right, then
+      override with <code>:first</code> to make it blank on the first page only.
+    </p>
+    <p>
+      Also note the <code>a::after</code> trick to explicitly display the
+      <code>href</code> attribute when printing. This is either clever or
+      annoying, depending on your goals.
+    </p>
   </body>
 </html>
