@@ -2,6 +2,8 @@
 
 Examples for using [WeasyPrint] as a Python library.
 
+Feel free to read [the related article](https://dev.to/bowmanjd).
+
 ## Installation
 
 Clone this repository, then make it the working directory:
