@@ -6,6 +6,9 @@ code {
   background: #ccc;
   padding: 2px;
 }
+pre code {
+  display: block;
+}
 img {
   display: block;
   margin-left: auto;

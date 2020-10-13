@@ -222,7 +222,7 @@ if __name__ == &quot;__main__&quot;:
     <h2>Styling HTML for print</h2>
     <p>
       As is probably apparent, using WeasyPrint is easy. The real work with HTML
-      to PDF conversion, though, is in the styling. Thankfully, CSS has pretty
+      to PDF conversion, however, is in the styling. Thankfully, CSS has pretty
       good support for printing.
     </p>
     <p>Some useful CSS print resources:</p>
@@ -278,7 +278,13 @@ if __name__ == &quot;__main__&quot;:
       <code>@media screen</code> respectively. In the example stylesheet, I
       assume that the defaults (such as seen in the
       <code>body</code> declaration) apply to all formats, and that
-      <code>@media print</code> provides overrides.
+      <code>@media print</code> provides overrides. Alternatively, you could
+      include separate stylesheets for print and screen, using the
+      <code>media</code> attribute of the <code>&lt;link&gt;</code> tag, as in
+      <code
+        >&lt;link rel=&quot;stylesheet&quot; src=&quot;print.css&quot;
+        media=&quot;print&quot; /&gt;</code
+      >.
     </p>
     <p>
       Second,
@@ -292,11 +298,81 @@ if __name__ == &quot;__main__&quot;:
       what you need. Note the margin and size adjustments above, and the page
       numbering, in which we first define a counter in the top-right, then
       override with <code>:first</code> to make it blank on the first page only.
+      In other words, page numbers only show from page 2 onward.
     </p>
     <p>
       Also note the <code>a::after</code> trick to explicitly display the
       <code>href</code> attribute when printing. This is either clever or
       annoying, depending on your goals.
     </p>
+    <p>
+      Another hint, not demonstrated above: within the
+      <code>@media print</code> block, set <code>display: none</code> on any
+      elements that don't need to be printed, and set
+      <code>background: none</code> where you don't want backgrounds printed.
+    </p>
+    <h2>Django and Flask support</h2>
+    <p>
+      If you write <a href="https://www.djangoproject.com/">Django</a> or
+      <a href="https://flask.palletsprojects.com/">Flask</a> apps, you may
+      benefit from the convenience of the respective libraries for generating
+      PDFs within these frameworks:
+    </p>
+    <ul>
+      <li>
+        <a href="https://github.com/fdemmer/django-weasyprint"
+          >django-weasyprint</a
+        >
+        provides a <code>WeasyTemplateView</code> view base class or a
+        <code>WeasyTemplateResponseMixin</code> mixin on a TemplateView
+      </li>
+      <li>
+        <a href="https://pythonhosted.org/Flask-WeasyPrint/"
+          >Flask-WeasyPrint</a
+        >
+        provides a special <code>HTML</code> class that works just like
+        WeasyPrint's, but respects Flask routes and WSGI. Also provided is a
+        <code>render_pdf</code> function that can be called on a template or on
+        the <code>url_for()</code> of another view, setting the correct
+        mimetype.
+      </li>
+    </ul>
+    <h2>Generate HTML the way you like</h2>
+    <p>
+      WeasyPrint encourages the developer to make HTML and CSS, and the PDF just
+      happens. If that fits your skill set, then you may enjoy experimenting
+      with and utilizing this library.
+    </p>
+    <p><em>How</em> you generate HTML is entirely up to you. You might:</p>
+    <ul>
+      <li>
+        Write HTML from scratch, and use
+        <a href="https://jinja.palletsprojects.com/">Jinja templates</a> for
+        variables and logic.
+      </li>
+      <li>
+        Write Markdown and convert it to HTML with
+        <a href="https://github.com/theacodes/cmarkgfm">cmarkgfm</a> or
+        <a
+          href="https://dev.to/bowmanjd/processing-markdown-in-python-using-available-commonmark-implementations-cmarkgfm-paka-cmark-and-mistletoe-350a"
+          >other Commonmark implementation</a
+        >.
+      </li>
+      <li>
+        Generate HTML Pythonically, with
+        <a href="https://github.com/Knio/dominate/">Dominate</a> or
+        <a href="https://lxml.de/tutorial.html#the-e-factory"
+          >lxml's E factory</a
+        >
+      </li>
+      <li>
+        Parse, modify, and prettify your HTML (or HTML written by others) with
+        <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/"
+          >BeautifulSoup</a
+        >
+      </li>
+    </ul>
+    <p>Then generate the PDF using WeasyPrint.</p>
+    <p>Anything I missed? Feel free to leave comments!</p>
   </body>
 </html>
